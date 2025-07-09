@@ -2,6 +2,7 @@
   lib,
   stdenv,
   fetchurl,
+  fetchzip,
   makeDesktopItem,
   copyDesktopItems,
   nwjs,
@@ -13,19 +14,23 @@
 }: let
   shortVersion = lib.versions.major version;
   bin_name = "inav-configurator";
-  ext =
-    if shortVersion < 8
-    then "tar.gz"
-    else "zip";
 in
   stdenv.mkDerivation rec {
     pname = "${bin_name}-" + shortVersion;
     inherit version;
 
-    src = fetchurl {
-      url = "https://github.com/iNavFlight/inav-configurator/releases/download/${version}/INAV-Configurator_linux64_${version}.${ext}";
-      inherit hash;
-    };
+    src =
+      if shortVersion == "8"
+      then
+        fetchzip {
+          url = "https://github.com/iNavFlight/inav-configurator/releases/download/${version}/INAV-Configurator_linux_x64_${version}.zip";
+          inherit hash;
+        }
+      else
+        fetchurl {
+          url = "https://github.com/iNavFlight/inav-configurator/releases/download/${version}/INAV-Configurator_linux64_${version}.tar.gz";
+          inherit hash;
+        };
 
     postUnpack = ''
       find -name "lib*.so" -delete

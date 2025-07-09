@@ -17906,7 +17906,7 @@ with pkgs;
   };
   inav-configurator8 = callPackage ../by-name/in/inav-configurator/package.nix {
     version = "8.0.1";
-    hash = "";
+    hash = "sha256-/TTey3OWA7fhjqffoU2WWrp7ghU1oifW20xu4BMp9xY=";
   };
 
   ### MISC
